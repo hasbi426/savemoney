@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kalkulator Anggaran</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="../assets/wallet.png" alt="SaveMoney Logo" />
+        <span>SaveMoney</span>
+      </div>
+      <nav>
+        <a href="#" class="nav-item">
+          <img src="assets/dashboard.png" alt="Dashboard" />
+          <span>DASHBOARD</span>
+        </a>
+        <a href="#" class="nav-item">
+          <img src="assets/tagihan.png" alt="Tagihan" />
+          <span>TAGIHAN</span>
+        </a>
+        <a href="#" class="nav-item active">
+          <img src="assets/kalkulator.png" alt="Kalkulator" />
+          <span>KALKULATOR</span>
+        </a>
+        <a href="#" class="nav-item">
+          <img src="assets/pengaturan.png" alt="Pengaturan" />
+          <span>PENGATURAN</span>
+        </a>
+      </nav>
+      <a href="#" class="nav-item logout">
+        <img src="assets/logout.png" alt="Logout" />
+        <span>LOG OUT</span>
+      </a>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <div class="search-bar">
+          <input type="text" placeholder="Search" />
+          <button>🔍</button>
+        </div>
+        <div class="profile">
+          <img src="assets/bell.png" class="notif" alt="Notifikasi" />
+          <img src="https://i.pravatar.cc/30" alt="User" />
+          <span class="username">ROBERT GRANT</span>
+        </div>
+      </header>
+
+      <section class="calculator">
+        <h2>Kalkulator Anggaran</h2>
+        <div class="form-group">
+          <label>Total Pendapatan</label>
+          <input type="text" value="Rp 4.000.000" readonly />
+        </div>
+        <div class="form-group">
+          <label>Total Pengeluaran</label>
+          <input type="text" value="Rp 2.300.000" readonly />
+        </div>
+        <div class="form-group">
+          <label>Sisa Anggaran</label>
+          <input type="text" value="Rp 1.700.000" readonly />
+        </div>
+        <button class="calculate">Hitung</button>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

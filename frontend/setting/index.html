@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pengaturan</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #ece2df;
+    }
+    .notif-item {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .notif-item + .notif-item {
+      margin-top: 15px;
+    }
+    .form-group input,
+    .form-group select {
+      background-color: #ffffff;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      width: 100%;
+      margin-top: 5px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="../assets/wallet.png" alt="SaveMoney Logo" />
+        <span>SaveMoney</span>
+      </div>
+      <nav>
+        <a href="#" class="nav-item">
+          <img src="assets/dashboard.png" alt="Dashboard" />
+          <span>DASHBOARD</span>
+        </a>
+        <a href="#" class="nav-item">
+          <img src="assets/tagihan.png" alt="Tagihan" />
+          <span>TAGIHAN</span>
+        </a>
+        <a href="#" class="nav-item">
+          <img src="assets/kalkulator.png" alt="Kalkulator" />
+          <span>KALKULATOR</span>
+        </a>
+        <a href="#" class="nav-item active">
+          <img src="assets/pengaturan.png" alt="Pengaturan" />
+          <span>PENGATURAN</span>
+        </a>
+      </nav>
+      <a href="#" class="nav-item logout">
+        <img src="assets/logout.png" alt="Logout" />
+        <span>LOG OUT</span>
+      </a>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <div class="search-bar">
+          <input type="text" placeholder="Search" />
+          <button>🔍</button>
+        </div>
+        <div class="profile">
+          <img src="assets/bell.png" class="notif" alt="Notifikasi" />
+          <img src="https://i.pravatar.cc/30" alt="User" />
+          <span class="username">ROBERT GRANT</span>
+        </div>
+      </header>
+
+      <section class="settings-box no-bg">
+        <h2>Pengaturan</h2>
+        <div class="info-profil">
+          <img class="profil-img" src="https://i.pravatar.cc/80" alt="Foto Profil">
+          <input class="input-nama input-no-bg" type="text" placeholder="Nama Lengkap">
+          <button class="btn-simpan">Simpan</button>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input class="input-no-bg" type="email" placeholder="Masukkan Email">
+        </div>
+
+        <div class="notifikasi">
+          <h3>Notifikasi</h3>
+          <div class="notif-item">
+            <div>
+              <strong>Ingatkan saya untuk membayar tagihan</strong>
+              <p>Aktifkan untuk menerima pengingat sebelum tanggal jatuh tempo</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="notif-item">
+            <div>
+              <strong>Terima Rekomendasi</strong>
+              <p>Dapatkan saran pengelolaan keuangan berdasarkan kebiasaan Anda</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Bahasa</label>
+          <select class="input-no-bg">
+            <option>Indonesia</option>
+            <option>English</option>
+          </select>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
