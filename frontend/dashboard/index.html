@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - SaveMoney</title>
+  <link rel="stylesheet" href="../kalkulator/style.css" /> <!-- Base styles from kalkulator -->
+  <link rel="stylesheet" href="dashboard.css" /> <!-- Dashboard-specific styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js -->
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="../assets/wallet.png" alt="SaveMoney Logo" />
+        <span>SaveMoney</span>
+      </div>
+      <nav>
+        <a href="index.html" class="nav-item active"> <!-- DASHBOARD is active -->
+          <img src="../assets/dashboard.png" alt="Dashboard" />
+          <span>DASHBOARD</span>
+        </a>
+        <a href="../kalkulator/index.html" class="nav-item">
+          <img src="../assets/kalkulator.png" alt="Kalkulator" />
+          <span>KALKULATOR</span>
+        </a>
+        <a href="#" class="nav-item"> <!-- Placeholder for Tagihan -->
+            <img src="../assets/tagihan.png" alt="Tagihan" />
+            <span>TAGIHAN</span>
+        </a>
+        <a href="../setting/index.html" class="nav-item">
+            <img src="../assets/pengaturan.png" alt="Pengaturan" />
+            <span>PENGATURAN</span>
+        </a>
+      </nav>
+      <a href="#" class="nav-item logout">
+        <img src="../assets/logout.png" alt="Logout" />
+        <span>LOG OUT</span>
+      </a>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <div class="search-bar">
+          <input type="text" placeholder="Search" />
+          <button type="button">🔍</button>
+        </div>
+        <div class="profile">
+          <img src="../assets/bell.png" class="notif" alt="Notifikasi" />
+          <img src="https://i.pravatar.cc/30?u=defaultUser" id="profileImage" alt="User" /> <!-- Generic placeholder -->
+          <span class="username">USER</span>
+        </div>
+      </header>
+
+      <section class="dashboard-content">
+        <h2>Dashboard Keuangan</h2>
+        <div class="period-selector">
+            <label for="periodSelect">Pilih Periode:</label>
+            <select id="periodSelect">
+                <option value="month" selected>Bulan Ini</option>
+                <option value="year">Tahun Ini</option>
+                <option value="week">Minggu Ini</option>
+                <!-- You can add 'custom' and then show date pickers -->
+            </select>
+        </div>
+
+        <div class="summary-cards">
+          <div class="card income-card">
+            <h3>Total Pemasukan</h3>
+            <p id="totalIncome">Rp 0</p>
+          </div>
+          <div class="card expense-card">
+            <h3>Total Pengeluaran</h3>
+            <p id="totalExpenses">Rp 0</p>
+          </div>
+          <div class="card savings-card">
+            <h3>Sisa Dana</h3>
+            <p id="netSavings">Rp 0</p>
+          </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-box">
+                <h3>Pengeluaran per Kategori</h3>
+                <canvas id="expenseChart"></canvas>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <button type="button" id="addIncomeBtn">Tambah Pemasukan</button>
+            <button type="button" id="addExpenseBtn">Tambah Pengeluaran</button>
+        </div>
+
+        <div class="recent-transactions">
+          <h3>Transaksi Terkini</h3>
+          <ul id="recentTransactionsList">
+            <li>Memuat transaksi...</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Modal for Adding Transactions -->
+      <div id="addTransactionModal" class="modal">
+        <div class="modal-content">
+          <span class="close-button" id="closeModalBtn">×</span>
+          <h3 id="modalTitle">Tambah Transaksi</h3>
+          <form id="transactionForm">
+            <input type="hidden" id="transactionTypeField" value="expense">
+            <div>
+              <label for="descriptionField">Deskripsi:</label>
+              <input type="text" id="descriptionField" required>
+            </div>
+            <div>
+              <label for="amountField">Jumlah (Rp):</label>
+              <input type="number" id="amountField" step="0.01" min="0.01" required>
+            </div>
+            <div>
+              <label for="dateField">Tanggal:</label>
+              <input type="date" id="dateField" required>
+            </div>
+            <div>
+              <label for="categoryField">Kategori: (Opsional)</label>
+              <input type="text" id="categoryField" placeholder="cth: Makanan, Gaji">
+            </div>
+            <button type="submit">Simpan Transaksi</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# savemoney-app/docker-compose.yml
+
+version: '3.8' # Specifies the version of the Docker Compose file format
+
+services:
+  postgres_db: # This is the service name for your PostgreSQL container
+    image: postgres:15 # You can use 'postgres:latest' or a specific version like 15 or 16
+    container_name: savemoney_postgres_container # A friendly name for the running container
+    restart: unless-stopped # Restarts the container unless it was explicitly stopped
+    environment:
+      POSTGRES_USER: ${DB_DOCKER_USER:-admin}         # Database username, defaults to 'admin' if not set in .env
+      POSTGRES_PASSWORD: ${DB_DOCKER_PASSWORD:-admin123} # Database password, defaults to 'admin123'
+      POSTGRES_DB: ${DB_DOCKER_NAME:-savemoney_dev_db} # Database name, defaults to 'savemoney_dev_db'
+    ports:
+      - "${DB_DOCKER_PORT:-5432}:5432" # Maps host port (default 5432) to container port 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persists database data
+
+volumes:
+  postgres_data: # Defines a named volume for data persistence
+    driver: local

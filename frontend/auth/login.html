@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SaveMoney - Sign In</title>
+  <script src="https://kit.fontawesome.com/9e0f8f0f96.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css" /> <!-- Can reuse the same style.css for now -->
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="../assets/wallet.png" alt="wallet icon">
+      <h1>SaveMoney</h1>
+    </div>
+
+    <h2 class="title">Sign In</h2>
+
+    <form id="loginForm">
+      <label for="email">Email</label>
+      <div class="input-box">
+        <input type="email" id="email" placeholder="Email" required>
+      </div>
+
+      <label for="password">Password</label>
+      <div class="input-box">
+        <input type="password" id="password" placeholder="Enter your password" required>
+        <i class="fa-solid fa-eye-slash icon-right" id="togglePasswordLogin"></i>
+      </div>
+
+      <button type="submit" class="btn">Sign In</button>
+    </form>
+    <div id="messageLogin" style="margin-top: 15px; text-align: center;"></div>
+    <p style="text-align: center; margin-top: 20px;">
+      Don't have an account? <a href="index.html">Create one here</a>
+    </p>
+  </div>
+
+  <script src="loginScript.js"></script> <!-- New script for login -->
+</body>
+</html>
