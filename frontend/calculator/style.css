@@ -1,3 +1,4 @@
+/* frontend/calculator/style.css */
 * {
   margin: 0;
   padding: 0;
@@ -6,30 +7,34 @@
 }
 
 body {
-  background-color: #ece2df;
+  background-color: #ece2df; /* Light grayish pink */
 }
 
 .container {
   display: flex;
-  gap: 20px;
+  /* gap: 20px; */ /* Gap can sometimes cause issues with 100vh sidebars */
 }
 
 .sidebar {
-  width: 220px;
-  background-color: #9cb7cc;
+  width: 220px; /* Fixed width */
+  min-width: 220px;
+  background-color: #9cb7cc; /* Dusty blue */
   color: white;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start; /* Align items to the start (left) */
   padding: 20px;
-  height: 100vh;
-  border-radius: 0 0 10px 0;
+  height: 100vh; /* Full viewport height */
+  /* border-radius: 0 0 10px 0; Removed for full height consistency */
+  position: sticky; /* Make sidebar sticky if main content scrolls */
+  top: 0;
 }
 
 .logo {
   display: flex;
   align-items: center;
   margin-bottom: 40px;
+  padding-left: 5px; /* Small padding for logo */
 }
 
 .logo img {
@@ -46,11 +51,17 @@ body {
 .nav-item {
   display: flex;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px 5px; /* Adjusted padding */
+  margin-bottom: 5px; /* Space between nav items */
   font-size: 14px;
   text-decoration: none;
   color: white;
-  width: 100%;
+  width: 100%; /* Make nav items take full width of sidebar padding */
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+}
+.nav-item:hover {
+  background-color: #85a0b8; /* Slightly darker shade for hover */
 }
 
 .nav-item img {
@@ -59,28 +70,32 @@ body {
   margin-right: 12px;
 }
 
-.nav-item span {
-  font-size: 14px;
-}
-
 .nav-item.active {
   font-weight: bold;
-  background-color: #b6cce1;
-  border-radius: 6px;
-  padding-left: 10px;
+  background-color: #b6cce1; /* Lighter blue for active */
+  color: #333; /* Darker text for active for contrast */
+}
+.nav-item.active:hover {
+  background-color: #aec3d6;
 }
 
+
 .nav-item.logout {
-  margin-top: auto;
+  margin-top: auto; /* Pushes logout to the bottom */
   color: white;
+}
+.nav-item.logout:hover {
+    background-color: #c0392b; /* Reddish hover for logout */
 }
 
 .main-content {
-  flex: 1;
-  padding: 30px 60px;
+  flex: 1; /* Takes remaining space */
+  padding: 30px 40px; /* Adjusted padding */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */ /* Removed to allow content to flow naturally */
+  background-color: #f9f4f2; /* Light beige background for content */
+  min-height: 100vh; /* Ensure it also takes full height if content is short */
 }
 
 header {
@@ -88,14 +103,16 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-bottom: 30px; /* Space below header */
 }
 
 .search-bar {
   display: flex;
   align-items: center;
-  background-color: #f2e8e5;
-  border-radius: 10px;
-  padding: 5px 10px;
+  background-color: #ffffff; /* White background for search */
+  border-radius: 20px; /* More rounded */
+  padding: 8px 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .search-bar input {
@@ -103,13 +120,17 @@ header {
   background: transparent;
   outline: none;
   padding: 5px;
-  width: 150px;
+  width: 200px; /* Increased width */
+  font-size: 14px;
 }
 
 .search-bar button {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 5px;
+  font-size: 16px; /* Slightly larger icon */
+  color: #777;
 }
 
 .profile {
@@ -118,66 +139,88 @@ header {
 }
 
 .profile .notif {
-  width: 20px;
-  height: 20px;
-  margin-right: 15px;
+  width: 22px; /* Slightly larger */
+  height: 22px;
+  margin-right: 20px; /* More space */
+  cursor: pointer;
 }
 
-.profile img:nth-child(2) {
+.profile img#profileImageCalculator, /* Target specific profile image */
+.profile img#profileImage { /* Also for dashboard */
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 35px; /* Slightly larger */
+  height: 35px;
   margin-right: 10px;
+  border: 2px solid #ddd; /* Subtle border */
 }
 
 .profile .username {
-  font-size: 12px;
+  font-size: 14px; /* Larger username */
   font-weight: 600;
+  color: #333;
 }
 
-.calculator {
+/* Updated class name here */
+.calculator-section {
   background-color: white;
-  padding: 60px;
-  margin-top: 60px;
+  padding: 40px; /* More padding */
+  margin-top: 30px; /* Adjusted margin */
   border-radius: 14px;
-  width: 700px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Full width of its container in main-content */
+  max-width: 700px; /* Max width for the calculator box */
+  align-self: center; /* Center the calculator box if main-content allows */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
 }
 
-.calculator h2 {
+.calculator-section h2 {
   margin-bottom: 30px;
-  font-size: 26px;
+  font-size: 24px; /* Slightly smaller H2 */
   text-align: center;
+  color: #333;
 }
 
 .form-group {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* Align items vertically */
   margin-bottom: 20px;
 }
 
 .form-group label {
-  font-size: 18px;
+  font-size: 16px; /* Slightly smaller label */
+  color: #555;
+  flex-basis: 40%; /* Give label some space */
 }
 
 .form-group input {
-  border: none;
-  background-color: #d3c4c3;
-  padding: 10px 16px;
+  border: 1px solid #ddd; /* Visible border */
+  background-color: #f9f9f9; /* Light background for input */
+  padding: 10px 12px;
   border-radius: 6px;
-  font-size: 18px;
-  width: 300px;
+  font-size: 16px;
+  width: 280px; /* Fixed width or use flex-basis */
   text-align: right;
+  color: #333;
+}
+.form-group input:read-only {
+    background-color: #e9ecef; /* Different bg for readonly */
+    cursor: not-allowed;
 }
 
-button.calculate {
-  background-color: #857cc1;
+
+button.calculate-btn { /* Updated class name */
+  background-color: #857cc1; /* Main accent color */
   color: white;
   border: none;
-  padding: 14px 40px;
-  border-radius: 10px;
+  padding: 12px 30px; /* Adjusted padding */
+  border-radius: 8px; /* Softer radius */
   cursor: pointer;
   display: block;
   margin: 30px auto 0;
-  font-size: 17px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+button.calculate-btn:hover {
+    background-color: #7065a8; /* Darker shade on hover */
 }

@@ -1,5 +1,5 @@
 // backend/src/services/transaction.service.js
-const { Transaction, sequelize, Op } = require('../models'); // Op for operators, sequelize for fn/col
+const { Transaction, User, sequelize, Op } = require('../models');
 
 const addTransaction = async (userId, transactionData) => {
   const { description, amount, type, date, category } = transactionData;
@@ -10,7 +10,7 @@ const addTransaction = async (userId, transactionData) => {
       type,
       date,
       category,
-      userId, // Sequelize handles the foreign key column name (user_id)
+      userId,
     });
     return transaction;
   } catch (error) {
@@ -29,12 +29,10 @@ const getTransactionsByUser = async (userId, queryParams) => {
   let whereClause = { userId };
   let orderClause = [[sortField, sortOrder.toUpperCase()]];
 
-  if (sortField === 'date') { // Ensure createdAt is secondary sort for date to maintain order for same-day entries
+  if (sortField === 'date') {
       orderClause.push(['createdAt', 'DESC']);
   }
 
-
-  // Date filtering
   if (startDate && endDate) {
     whereClause.date = { [Op.between]: [startDate, endDate] };
   } else if (period) {
@@ -47,10 +45,10 @@ const getTransactionsByUser = async (userId, queryParams) => {
       calculatedStartDate = new Date(now.getFullYear(), 0, 1);
       calculatedEndDate = new Date(now.getFullYear(), 11, 31);
     } else if (period === 'week') {
-        const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay())); // Sunday
+        const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1) )); // Monday as first day
         calculatedStartDate = new Date(firstDayOfWeek.getFullYear(), firstDayOfWeek.getMonth(), firstDayOfWeek.getDate());
-        const lastDayOfWeek = new Date(firstDayOfWeek);
-        lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6); // Saturday
+        const lastDayOfWeek = new Date(calculatedStartDate);
+        lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6); // Sunday
         calculatedEndDate = new Date(lastDayOfWeek.getFullYear(), lastDayOfWeek.getMonth(), lastDayOfWeek.getDate());
     }
     if (calculatedStartDate && calculatedEndDate) {
@@ -59,7 +57,7 @@ const getTransactionsByUser = async (userId, queryParams) => {
   }
 
   if (type) whereClause.type = type;
-  if (category) whereClause.category = { [Op.iLike]: `%${category}%` }; // Case-insensitive search for category
+  if (category) whereClause.category = { [Op.iLike]: `%${category}%` };
 
   const transactions = await Transaction.findAndCountAll({
     where: whereClause,
@@ -67,7 +65,7 @@ const getTransactionsByUser = async (userId, queryParams) => {
     offset: parseInt(offset, 10),
     order: orderClause,
   });
-  return transactions; // { count, rows }
+  return transactions;
 };
 
 const getTransactionById = async (userId, transactionId) => {
@@ -112,6 +110,7 @@ const deleteTransaction = async (userId, transactionId) => {
 const getDashboardSummary = async (userId, period = 'month') => {
   let queryStartDate, queryEndDate;
   const now = new Date();
+  let displayPeriod = period;
 
   if (period === 'month') {
     queryStartDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
@@ -119,9 +118,17 @@ const getDashboardSummary = async (userId, period = 'month') => {
   } else if (period === 'year') {
     queryStartDate = new Date(now.getFullYear(), 0, 1).toISOString().split('T')[0];
     queryEndDate = new Date(now.getFullYear(), 11, 31).toISOString().split('T')[0];
-  } else { // Default to current month if period is invalid
+  } else if (period === 'week') {
+    const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1) )); // Monday
+    queryStartDate = new Date(firstDayOfWeek.getFullYear(), firstDayOfWeek.getMonth(), firstDayOfWeek.getDate()).toISOString().split('T')[0];
+    const lastDayOfWeek = new Date(firstDayOfWeek);
+    lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6); // Sunday
+    queryEndDate = new Date(lastDayOfWeek.getFullYear(), lastDayOfWeek.getMonth(), lastDayOfWeek.getDate()).toISOString().split('T')[0];
+  } else {
+    // Default to current month if period is invalid or not provided
     queryStartDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
     queryEndDate = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
+    displayPeriod = 'month'; // Set display period to the default
   }
 
   const whereClause = {
@@ -142,25 +149,25 @@ const getDashboardSummary = async (userId, period = 'month') => {
       'category',
       [sequelize.fn('SUM', sequelize.col('amount')), 'total_amount'],
     ],
-    where: { ...whereClause, type: 'expense' },
+    where: { ...whereClause, type: 'expense', category: {[Op.ne]: null} }, // Exclude null categories from chart
     group: ['category'],
     order: [[sequelize.fn('SUM', sequelize.col('amount')), 'DESC']],
     raw: true,
   });
 
   const recentTransactions = await Transaction.findAll({
-    where: { userId }, // Can also filter by period for recent
+    where: { userId },
     limit: 5,
     order: [['date', 'DESC'], ['createdAt', 'DESC']],
   });
 
   return {
-    period: { startDate: queryStartDate, endDate: queryEndDate, display: period },
+    period: { startDate: queryStartDate, endDate: queryEndDate, display: displayPeriod },
     totalIncome: parseFloat(totalIncome),
     totalExpenses: parseFloat(totalExpenses),
     netSavings: parseFloat(totalIncome) - parseFloat(totalExpenses),
     expensesByCategory: expensesByCategory.map(item => ({
-        category: item.category || 'Uncategorized', // Handle null categories
+        category: item.category, // Category will not be null here due to where clause
         total_amount: parseFloat(item.total_amount)
     })),
     recentTransactions,

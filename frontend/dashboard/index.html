@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard - SaveMoney</title>
-  <link rel="stylesheet" href="../kalkulator/style.css" /> <!-- Base styles from kalkulator -->
+  <!-- Make sure this path is correct relative to dashboard/index.html -->
+  <link rel="stylesheet" href="../calculator/style.css" /> <!-- Base styles from calculator -->
   <link rel="stylesheet" href="dashboard.css" /> <!-- Dashboard-specific styles -->
   <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
@@ -17,23 +18,23 @@
         <span>SaveMoney</span>
       </div>
       <nav>
-        <a href="index.html" class="nav-item active"> <!-- DASHBOARD is active -->
-          <img src="../assets/dashboard.png" alt="Dashboard" />
-          <span>DASHBOARD</span>
+        <a href="../dashboard/index.html" class="nav-item <!-- add 'active' if this is dashboard.html -->">
+            <img src="../assets/dashboard.png" alt="Dashboard" />
+            <span>DASHBOARD</span>
         </a>
-        <a href="../kalkulator/index.html" class="nav-item">
-          <img src="../assets/kalkulator.png" alt="Kalkulator" />
-          <span>KALKULATOR</span>
-        </a>
-        <a href="#" class="nav-item"> <!-- Placeholder for Tagihan -->
+        <a href="../bills/index.html" class="nav-item <!-- add 'active' if this is bills.html -->">
             <img src="../assets/tagihan.png" alt="Tagihan" />
             <span>TAGIHAN</span>
         </a>
-        <a href="../setting/index.html" class="nav-item">
+        <a href="../calculator/index.html" class="nav-item <!-- add 'active' if this is calculator.html -->">
+            <img src="../assets/calculator.png" alt="Calculator" />
+            <span>CALCULATOR</span>
+        </a>
+        <a href="../setting/index.html" class="nav-item <!-- add 'active' if this is setting.html -->">
             <img src="../assets/pengaturan.png" alt="Pengaturan" />
             <span>PENGATURAN</span>
         </a>
-      </nav>
+    </nav>
       <a href="#" class="nav-item logout">
         <img src="../assets/logout.png" alt="Logout" />
         <span>LOG OUT</span>
@@ -48,7 +49,7 @@
         </div>
         <div class="profile">
           <img src="../assets/bell.png" class="notif" alt="Notifikasi" />
-          <img src="https://i.pravatar.cc/30?u=defaultUser" id="profileImage" alt="User" /> <!-- Generic placeholder -->
+          <img src="https://i.pravatar.cc/30?u=defaultUser" id="profileImage" alt="User" />
           <span class="username">USER</span>
         </div>
       </header>
@@ -59,9 +60,8 @@
             <label for="periodSelect">Pilih Periode:</label>
             <select id="periodSelect">
                 <option value="month" selected>Bulan Ini</option>
-                <option value="year">Tahun Ini</option>
                 <option value="week">Minggu Ini</option>
-                <!-- You can add 'custom' and then show date pickers -->
+                <option value="year">Tahun Ini</option>
             </select>
         </div>
 
@@ -100,13 +100,12 @@
         </div>
       </section>
 
-      <!-- Modal for Adding Transactions -->
       <div id="addTransactionModal" class="modal">
         <div class="modal-content">
-          <span class="close-button" id="closeModalBtn">×</span>
+          <span class="close-button" id="closeModalBtn">×</span> <!-- Added ID for JS -->
           <h3 id="modalTitle">Tambah Transaksi</h3>
           <form id="transactionForm">
-            <input type="hidden" id="transactionTypeField" value="expense">
+            <input type="hidden" id="transactionTypeField"> <!-- Matched ID with JS -->
             <div>
               <label for="descriptionField">Deskripsi:</label>
               <input type="text" id="descriptionField" required>

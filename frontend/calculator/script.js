@@ -1,11 +1,11 @@
-// frontend/kalkulator/script.js
+// frontend/calculator/script.js
 document.addEventListener('DOMContentLoaded', () => {
     const authToken = localStorage.getItem('authToken');
     const userDataString = localStorage.getItem('userData');
     let currentUser = null;
   
     function redirectToLogin() {
-      alert('Sesi Anda tidak valid atau telah berakhir. Silakan login kembali.');
+      alert('Your session is invalid or has expired. Please log in again.');
       localStorage.removeItem('authToken');
       localStorage.removeItem('userData');
       window.location.href = '../auth/login.html';
@@ -26,59 +26,64 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
   
-    // Update username in the header
-    const usernameDisplay = document.getElementById('usernameKalkulator');
+    const usernameDisplay = document.getElementById('usernameCalculator');
     if (usernameDisplay && currentUser && currentUser.name) {
       usernameDisplay.textContent = currentUser.name.toUpperCase();
     }
+    // const profileImageDisplay = document.getElementById('profileImageCalculator');
+    // if (profileImageDisplay && currentUser && currentUser.profilePictureUrl) { // If you add profile pics
+    //   profileImageDisplay.src = currentUser.profilePictureUrl;
+    // }
   
-    // Logout Functionality
     const logoutButton = document.querySelector('.sidebar .logout');
     if (logoutButton) {
       logoutButton.addEventListener('click', (event) => {
         event.preventDefault();
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userData');
-        alert('Anda telah logout.');
-        window.location.href = '../auth/login.html';
+        redirectToLogin('You have been logged out.');
       });
     }
   
-    // Basic Client-Side Calculator Example (not connected to backend data yet)
-    const calculateButton = document.querySelector('.calculator .calculate');
-    const totalPendapatanInput = document.getElementById('totalPendapatanKalkulator');
-    const totalPengeluaranInput = document.getElementById('totalPengeluaranKalkulator');
-    const sisaAnggaranInput = document.getElementById('sisaAnggaranKalkulator');
+    const calculateButton = document.querySelector('.calculator-section .calculate-btn');
+    const totalIncomeInput = document.getElementById('totalIncomeCalculator');
+    const totalExpensesInput = document.getElementById('totalExpensesCalculator');
+    const remainingBudgetInput = document.getElementById('remainingBudgetCalculator');
   
     // Initialize with some default values or make them editable
-    totalPendapatanInput.value = "Rp 4.000.000"; // Example
-    totalPengeluaranInput.value = "Rp 2.300.000"; // Example
+    totalIncomeInput.value = "Rp 4.000.000"; // Example
+    totalExpensesInput.value = "Rp 2.300.000"; // Example
   
+    function performCalculation() {
+      const parseCurrency = (rpString) => {
+        if (typeof rpString !== 'string') return 0;
+        return parseFloat(rpString.replace(/Rp|\.| /g, '').replace(',', '.'));
+      };
+      const formatCurrency = (amount) => {
+        return 'Rp ' + parseFloat(amount || 0).toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+      };
+  
+      const income = parseCurrency(totalIncomeInput.value);
+      const expenses = parseCurrency(totalExpensesInput.value);
+  
+      if (!isNaN(income) && !isNaN(expenses)) {
+        const remaining = income - expenses;
+        remainingBudgetInput.value = formatCurrency(remaining);
+      } else {
+        remainingBudgetInput.value = 'Invalid input';
+      }
+    }
   
     if (calculateButton) {
       calculateButton.addEventListener('click', () => {
-        const parseCurrency = (rpString) => {
-          if (!rpString) return 0;
-          return parseFloat(rpString.replace(/Rp|\.| /g, '').replace(',', '.'));
-        };
-        const formatCurrency = (amount) => {
-          return 'Rp ' + parseFloat(amount || 0).toLocaleString('id-ID');
-        };
-  
-        const pendapatan = parseCurrency(totalPendapatanInput.value);
-        const pengeluaran = parseCurrency(totalPengeluaranInput.value);
-  
-        if (!isNaN(pendapatan) && !isNaN(pengeluaran)) {
-          const sisa = pendapatan - pengeluaran;
-          sisaAnggaranInput.value = formatCurrency(sisa);
-        } else {
-          sisaAnggaranInput.value = 'Invalid input';
-        }
-        alert('Perhitungan selesai (client-side). Nilai sisa anggaran diperbarui.');
+          performCalculation();
+          // alert('Calculation complete (client-side). Remaining budget updated.');
       });
     }
+    
+    // Add event listeners to recalculate if income/expenses change
+    totalIncomeInput.addEventListener('input', performCalculation);
+    totalExpensesInput.addEventListener('input', performCalculation);
   
-    // Initial calculation based on default/user-input values
-    if (calculateButton) calculateButton.click(); // Perform initial calculation if defaults are set
   
+    // Initial calculation based on default values
+    performCalculation();
   });

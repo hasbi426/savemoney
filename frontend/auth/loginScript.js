@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const loginData = { email, password };
   
         try {
+          // Ensure this matches your backend server address and port
           const response = await fetch('http://localhost:5001/api/auth/login', {
             method: 'POST',
             headers: {
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('userData', JSON.stringify(data.user));
   
             setTimeout(() => {
-              window.location.href = '../dashboard/index.html'; // << CHANGED REDIRECT
+              window.location.href = '../dashboard/index.html'; // Redirect to dashboard
             }, 1500);
   
           } else {

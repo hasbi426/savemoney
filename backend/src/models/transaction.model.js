@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       amount: {
-        type: DataTypes.DECIMAL(10, 2),
+        type: DataTypes.DECIMAL(10, 2), // Suitable for currency
         allowNull: false,
         validate: {
           isDecimal: { msg: 'Amount must be a decimal number' },
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       date: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATEONLY, // Stores YYYY-MM-DD
         allowNull: false,
         validate: {
           isDate: { msg: 'Invalid date format' },
@@ -41,21 +41,23 @@ module.exports = (sequelize, DataTypes) => {
       },
       category: {
         type: DataTypes.STRING,
-        allowNull: true, // Or false if you want it mandatory
+        allowNull: true, // Can be made mandatory by setting to false
       },
-      // userId is added via association
+      // userId is added via association by Sequelize
     }, {
       tableName: 'transactions',
-      timestamps: true, // Adds createdAt and updatedAt fields
-      // Sequelize automatically converts camelCase model fields to snake_case table columns
-      // underscored: true, // if you prefer snake_case in your JS code too
+      timestamps: true,
+      // underscored: true, // if you want field names in JS to be snake_case as well.
+                          // By default, Sequelize converts camelCase (userId) to snake_case (user_id) in DB.
     });
   
     Transaction.associate = (models) => {
       Transaction.belongsTo(models.User, {
-        foreignKey: 'userId', // This will create 'userId' field in Transaction table
-                              // Sequelize will create it as user_id in the DB by default if underscored: true
-        as: 'user',        // Alias for the association
+        foreignKey: 'userId', // This name (userId) will be used in JS
+                             // It will create 'user_id' column in the 'transactions' table
+        as: 'user',
+        onDelete: 'CASCADE', // If a user is deleted, their transactions are also deleted
+        onUpdate: 'CASCADE',
       });
     };
   

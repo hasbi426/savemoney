@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tagihan - SaveMoney</title>
+    <link rel="stylesheet" href="../calculator/style.css" /> <!-- Base styles from calculator page -->
+    <link rel="stylesheet" href="bills.css" /> <!-- Bills specific styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="../assets/wallet.png" alt="SaveMoney Logo" />
+                <span>SaveMoney</span>
+            </div>
+            <nav>
+                <a href="../dashboard/index.html" class="nav-item">
+                    <img src="../assets/dashboard.png" alt="Dashboard" />
+                    <span>DASHBOARD</span>
+                </a>
+                <a href="index.html" class="nav-item active"> <!-- BILLS is active -->
+                    <img src="../assets/tagihan.png" alt="Tagihan" />
+                    <span>TAGIHAN</span>
+                </a>
+                <a href="../calculator/index.html" class="nav-item">
+                    <img src="../assets/calculator.png" alt="Calculator" />
+                    <span>CALCULATOR</span>
+                </a>
+                <a href="../setting/index.html" class="nav-item">
+                    <img src="../assets/pengaturan.png" alt="Pengaturan" />
+                    <span>PENGATURAN</span>
+                </a>
+            </nav>
+            <a href="#" class="nav-item logout">
+                <img src="../assets/logout.png" alt="Logout" />
+                <span>LOG OUT</span>
+            </a>
+        </aside>
+
+        <main class="main-content">
+            <!-- Header -->
+            <header>
+                <div class="main-title-area">
+                    <h2>Tagihan</h2>
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="billSearchInput" placeholder="Cari tagihan..." />
+                    <button type="button" id="billSearchBtn">🔍</button>
+                </div>
+                <div class="profile">
+                    <img src="../assets/bell.png" class="notif" alt="Notifikasi" id="notificationBellIcon" title="Cek Pengingat"/>
+                    <img src="https://i.pravatar.cc/30?u=defaultUser" id="profileImage" alt="User" />
+                    <span class="username">USER</span>
+                </div>
+            </header>
+
+            <section class="bills-content">
+                <button type="button" id="openAddBillModalBtn" class="add-bill-main-btn">+ Tambah Tagihan</button>
+                
+                <div class="current-bills-section" id="currentBillsContainer">
+                    <!-- "Tagihan Berjalan" like Listrik, Internet, Air will be populated here -->
+                    <p class="loading-text">Memuat tagihan berjalan...</p>
+                </div>
+
+                <div class="upcoming-bills-section">
+                    <h3>Tagihan Mendatang (Contoh)</h3>
+                    <div class="upcoming-bills-grid" id="upcomingGroupedBillsContainer">
+                        <!-- Upcoming bills like Asuransi, Telepon will be populated here -->
+                        <p class="loading-text">Memuat tagihan mendatang...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reminder Modal -->
+            <div id="reminderModal" class="modal reminder-style">
+                <div class="modal-content">
+                    <div class="reminder-icon-container">
+                        <img src="../assets/bell_reminder.png" alt="Reminder Bell" />
+                    </div>
+                    <h3>REMINDER</h3>
+                    <p id="reminderText">Tidak ada pengingat tagihan saat ini.</p>
+                    <div class="reminder-actions">
+                        <button type="button" id="closeReminderModalBtn" class="btn-secondary">Close</button>
+                        <button type="button" id="gotItReminderBtn" class="btn-primary">Got It</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add/Edit Bill Modal -->
+            <div id="billFormModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" id="closeBillFormModalBtn">×</span>
+                    <h3 id="billModalTitle">Tambah Tagihan Baru</h3>
+                    <form id="billForm">
+                        <input type="hidden" id="billIdField">
+                        <div><label for="billNameField">Nama Tagihan:</label><input type="text" id="billNameField" required></div>
+                        <div><label for="billAmountField">Jumlah (Rp):</label><input type="number" id="billAmountField" step="0.01" min="0.01" required></div>
+                        <div><label for="billDueDateField">Tanggal Jatuh Tempo:</label><input type="date" id="billDueDateField" required></div>
+                        <div>
+                            <label for="billRecurrenceField">Frekuensi:</label>
+                            <select id="billRecurrenceField">
+                                <option value="one-time">Sekali Bayar</option>
+                                <option value="weekly">Mingguan</option>
+                                <option value="bi-weekly">Dua Mingguan</option>
+                                <option value="monthly" selected>Bulanan</option>
+                                <option value="quarterly">Triwulanan</option>
+                                <option value="yearly">Tahunan</option>
+                            </select>
+                        </div>
+                        <div><label for="billCategoryField">Kategori: (Opsional)</label><input type="text" id="billCategoryField" placeholder="cth: Utilitas, Hiburan"></div>
+                        <div>
+                            <label for="billStatusField">Status:</label>
+                            <select id="billStatusField">
+                                <option value="upcoming" selected>Akan Datang</option>
+                                <option value="unpaid">Belum Dibayar</option>
+                                <option value="paid">Sudah Dibayar</option>
+                                <option value="overdue">Terlambat</option>
+                            </select>
+                        </div>
+                        <div><label for="billReminderDateField">Tanggal Pengingat: (Opsional)</label><input type="date" id="billReminderDateField"></div>
+                        <div><label for="billNotesField">Catatan: (Opsional)</label><textarea id="billNotesField" rows="3"></textarea></div>
+                        <button type="submit" id="saveBillBtn">Simpan Tagihan</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="bills.js"></script>
+</body>
+</html>

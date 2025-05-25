@@ -1,25 +1,26 @@
 // backend/src/routes/index.js
 const express = require('express');
 const authRoutes = require('./auth.routes');
-const transactionRoutes = require('./transaction.routes'); // Import
+const transactionRoutes = require('./transaction.routes');
+const billRoutes = require('./bill.routes'); // <<<--- IMPORT
 
 const router = express.Router();
 
 router.use('/auth', authRoutes);
-router.use('/transactions', transactionRoutes); // Mount transaction routes
+router.use('/transactions', transactionRoutes);
+router.use('/bills', billRoutes); // <<<--- MOUNT
 
 router.get('/', (req, res) => {
   res.json({ message: 'Welcome to SaveMoney API v1' });
 });
 
-// Catch-all for API routes not found (optional, but good practice)
 router.use((req, res, next) => {
-  if (req.originalUrl.startsWith('/api/')) { // Only for /api routes
+  if (req.originalUrl.startsWith('/api/')) {
     const error = new Error('API Endpoint Not Found');
     error.statusCode = 404;
     next(error);
   } else {
-    next(); // Pass to other non-API handlers if any
+    next();
   }
 });
 

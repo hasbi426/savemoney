@@ -15,16 +15,16 @@ if (config.use_env_variable) {
   sequelizeCliInstance = new Sequelize(config.database, config.username, config.password, config);
 }
 
-// Store the CLI-configured instance for CLI operations if needed, though not directly used by app runtime usually
+// Store the CLI-configured instance for CLI operations if needed
 db.sequelizeCli = sequelizeCliInstance;
 db.Sequelize = Sequelize; // The Sequelize library itself
 
 // ---- Application's Sequelize Instance ----
 const appSequelize = require('../config/database'); // Your application's runtime Sequelize instance
-db.AppSequelize = appSequelize; // Make the app's instance available if needed directly
+db.AppSequelize = appSequelize; // Make the app's instance available
+db.sequelize = appSequelize; // Common practice to also name it 'sequelize'
 
-// Load all model files from this directory (except index.js and test files)
-// and initialize them with the application's Sequelize instance (appSequelize)
+// Load all model files from this directory
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -36,16 +36,15 @@ fs
     );
   })
   .forEach(file => {
-    // Each model file exports a function: (sequelize, DataTypes) => { ... return Model; }
     const modelDefiner = require(path.join(__dirname, file));
     const model = modelDefiner(appSequelize, Sequelize.DataTypes); // Use app's sequelize instance
     db[model.name] = model; // e.g., db.User, db.Transaction
   });
 
-// Apply associations if they exist
+// Apply associations
 Object.keys(db).forEach(modelName => {
   if (db[modelName] && db[modelName].associate) {
-    db[modelName].associate(db); // Pass the `db` object which contains all defined models
+    db[modelName].associate(db);
   }
 });
 

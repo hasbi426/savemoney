@@ -2,41 +2,50 @@
 require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 const express = require('express');
 const cors = require('cors');
-const apiRoutes = require('./routes'); // Main API router from routes/index.js
+const apiRoutes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
-const { AppSequelize } = require('./models'); // Use AppSequelize for runtime connection
+// const { AppSequelize } = require('./models'); // Not directly needed here anymore
 
 const app = express();
 
-// CORS configuration
+// CORS configuration - more permissive for local development
+const allowedOrigins = [
+    'http://localhost:3000', // Example: React dev server
+    'http://localhost:5500', // Common Live Server port
+    'http://127.0.0.1:5500', // Common Live Server port
+    'http://localhost:5501', // Another common Live Server port
+    'http://127.0.0.1:5501',
+    // Add your frontend's actual origin if it's different,
+    // or if you are opening file:/// directly (though this can be tricky with CORS)
+];
+
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://127.0.0.1:5500', 'http://localhost:5500'], // Add your frontend URL(s)
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests, or file://)
+    // OR if origin is in allowedOrigins
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Allow cookies if you use them for sessions
+  credentials: true,
   optionsSuccessStatus: 204
 };
 app.use(cors(corsOptions));
 
-
 // Middlewares
-app.use(express.json()); // Parses incoming requests with JSON payloads
-app.use(express.urlencoded({ extended: true })); // Parses incoming requests with URL-encoded payloads
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // API Routes
-app.use('/api', apiRoutes); // Mount all API routes under /api
+app.use('/api', apiRoutes);
 
 // Simple health check route
 app.get('/health', (req, res) => res.status(200).send('OK'));
 
-
-// 404 Not Found Handler - for API routes
-app.use('/api/*', (req, res, next) => {
-  const error = new Error('Not Found - API endpoint does not exist');
-  error.statusCode = 404;
-  next(error);
-});
-
-// Global Error Handler (must be the last middleware)
+// Global Error Handler (must be the last middleware using `app.use`)
 app.use(errorHandler);
 
 module.exports = app;

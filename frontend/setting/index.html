@@ -3,35 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pengaturan</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Pengaturan - SaveMoney</title>
+  <link rel="stylesheet" href="style.css" /> <!-- Make sure this exists or link to calculator/style.css -->
   <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: #ece2df;
-    }
-    .notif-item {
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .notif-item + .notif-item {
-      margin-top: 15px;
-    }
-    .form-group input,
-    .form-group select {
-      background-color: #ffffff;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      width: 100%;
-      margin-top: 5px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -41,25 +15,25 @@
         <span>SaveMoney</span>
       </div>
       <nav>
-        <a href="#" class="nav-item">
-          <img src="assets/dashboard.png" alt="Dashboard" />
-          <span>DASHBOARD</span>
+        <a href="../dashboard/index.html" class="nav-item <!-- add 'active' if this is dashboard.html -->">
+            <img src="../assets/dashboard.png" alt="Dashboard" />
+            <span>DASHBOARD</span>
         </a>
-        <a href="#" class="nav-item">
-          <img src="assets/tagihan.png" alt="Tagihan" />
-          <span>TAGIHAN</span>
+        <a href="../bills/index.html" class="nav-item <!-- add 'active' if this is bills.html -->">
+            <img src="../assets/tagihan.png" alt="Tagihan" />
+            <span>TAGIHAN</span>
         </a>
-        <a href="#" class="nav-item">
-          <img src="assets/calculator.png" alt="calculator" />
-          <span>calculator</span>
+        <a href="../calculator/index.html" class="nav-item <!-- add 'active' if this is calculator.html -->">
+            <img src="../assets/calculator.png" alt="Calculator" />
+            <span>CALCULATOR</span>
         </a>
-        <a href="#" class="nav-item active">
-          <img src="assets/pengaturan.png" alt="Pengaturan" />
-          <span>PENGATURAN</span>
+        <a href="../setting/index.html" class="nav-item <!-- add 'active' if this is setting.html -->">
+            <img src="../assets/pengaturan.png" alt="Pengaturan" />
+            <span>PENGATURAN</span>
         </a>
-      </nav>
+    </nav>
       <a href="#" class="nav-item logout">
-        <img src="assets/logout.png" alt="Logout" />
+        <img src="../assets/logout.png" alt="Logout" />
         <span>LOG OUT</span>
       </a>
     </aside>
@@ -68,37 +42,37 @@
       <header>
         <div class="search-bar">
           <input type="text" placeholder="Search" />
-          <button>🔍</button>
+          <button type="button">🔍</button>
         </div>
         <div class="profile">
-          <img src="assets/bell.png" class="notif" alt="notification" />
-          <img src="https://i.pravatar.cc/30" alt="User" />
-          <span class="username">ROBERT GRANT</span>
+          <img src="../assets/bell.png" class="notif" alt="Notifikasi" />
+          <img src="https://i.pravatar.cc/30?u=defaultUser" id="profileImageSettings" alt="User" />
+          <span class="username" id="usernameSettings">USER</span>
         </div>
       </header>
 
-      <section class="settings-box no-bg">
+      <section class="settings-box no-bg"> <!-- Assuming 'no-bg' is a style you might use -->
         <h2>Pengaturan</h2>
         <div class="info-profil">
-          <img class="profil-img" src="https://i.pravatar.cc/80" alt="Foto Profil">
-          <input class="input-nama input-no-bg" type="text" placeholder="Nama Lengkap">
-          <button class="btn-simpan">Simpan</button>
+          <img class="profil-img" src="https://i.pravatar.cc/80?u=defaultUser" alt="Foto Profil">
+          <input class="input-nama input-no-bg" type="text" id="fullNameSetting" placeholder="Nama Lengkap">
+          <button type="button" class="btn-simpan" id="saveProfileBtn">Simpan</button>
         </div>
 
         <div class="form-group">
-          <label>Email</label>
-          <input class="input-no-bg" type="email" placeholder="Masukkan Email">
+          <label for="emailSetting">Email</label>
+          <input class="input-no-bg" type="email" id="emailSetting" placeholder="Masukkan Email" readonly> <!-- Email usually not changed directly -->
         </div>
 
-        <div class="notification">
-          <h3>notification</h3>
+        <div class="notifikasi">
+          <h3>Notifikasi</h3>
           <div class="notif-item">
             <div>
               <strong>Ingatkan saya untuk membayar tagihan</strong>
               <p>Aktifkan untuk menerima pengingat sebelum tanggal jatuh tempo</p>
             </div>
             <label class="switch">
-              <input type="checkbox" checked>
+              <input type="checkbox" id="reminderNotifToggle" checked>
               <span class="slider"></span>
             </label>
           </div>
@@ -109,21 +83,115 @@
               <p>Dapatkan saran pengelolaan keuangan berdasarkan kebiasaan Anda</p>
             </div>
             <label class="switch">
-              <input type="checkbox" checked>
+              <input type="checkbox" id="recommendNotifToggle" checked>
               <span class="slider"></span>
             </label>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Bahasa</label>
-          <select class="input-no-bg">
-            <option>Indonesia</option>
-            <option>English</option>
+          <label for="languageSetting">Bahasa</label>
+          <select class="input-no-bg" id="languageSetting">
+            <option value="id">Indonesia</option>
+            <option value="en">English</option>
           </select>
         </div>
       </section>
     </main>
   </div>
+  <!-- Link to settings specific JS - you'll need to create this for dynamic functionality -->
+  <!-- <script src="settings.js"></script> -->
+  <!-- Temporary script for basic auth check & logout -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const authToken = localStorage.getItem('authToken');
+        const userDataString = localStorage.getItem('userData');
+        let currentUser = null;
+
+        function redirectToLogin() {
+            alert('Sesi Anda tidak valid atau telah berakhir. Silakan login kembali.');
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            window.location.href = '../auth/login.html';
+        }
+
+        if (userDataString) {
+            try { currentUser = JSON.parse(userDataString); }
+            catch (e) { redirectToLogin(); return; }
+        }
+        if (!authToken || !currentUser) { redirectToLogin(); return; }
+
+        const usernameDisplay = document.getElementById('usernameSettings');
+        if (usernameDisplay && currentUser.name) usernameDisplay.textContent = currentUser.name.toUpperCase();
+        
+        const emailDisplay = document.getElementById('emailSetting');
+        if (emailDisplay && currentUser.email) emailDisplay.value = currentUser.email;
+        
+        const fullNameDisplay = document.getElementById('fullNameSetting');
+        if (fullNameDisplay && currentUser.name) fullNameDisplay.value = currentUser.name;
+
+
+        const logoutButton = document.querySelector('.sidebar .logout');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                redirectToLogin('Anda telah logout.');
+            });
+        }
+        // TODO: Add logic to fetch and save settings from/to backend
+    });
+  </script>
+  <style> /* Copied from your original file for completeness, ensure path to style.css is correct */
+    body { background-color: #ece2df; font-family: 'Inter', sans-serif; margin:0; padding:0; box-sizing: border-box;}
+    .container { display: flex; gap: 0px; } /* Removed gap as sidebar is sticky */
+    .sidebar { width: 220px; min-width:220px; background-color: #9cb7cc; color: white; display: flex; flex-direction: column; align-items: start; padding: 20px; height: 100vh; position: sticky; top: 0;}
+    .logo { display: flex; align-items: center; margin-bottom: 40px; }
+    .logo img { width: 24px; height: 24px; margin-right: 10px; }
+    .logo span { font-weight: bold; font-size: 16px; }
+    .nav-item { display: flex; align-items: center; padding: 10px 5px; font-size: 14px; text-decoration: none; color: white; width: 100%; border-radius: 6px; margin-bottom: 5px; }
+    .nav-item:hover { background-color: #85a0b8; }
+    .nav-item img { width: 20px; height: 20px; margin-right: 12px; }
+    .nav-item.active { font-weight: bold; background-color: #b6cce1; color: #333; }
+    .nav-item.active:hover { background-color: #aec3d6; }
+    .nav-item.logout { margin-top: auto; }
+    .nav-item.logout:hover { background-color: #c0392b; }
+
+    .main-content { flex: 1; padding: 30px 40px; display: flex; flex-direction: column; background-color: #f9f4f2; min-height:100vh; }
+    header { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom:30px; }
+    .search-bar { display: flex; align-items: center; background-color: #ffffff; border-radius: 20px; padding: 8px 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .search-bar input { border: none; background: transparent; outline: none; padding: 5px; width: 200px; font-size:14px;}
+    .search-bar button { background: none; border: none; cursor: pointer; padding:5px; font-size:16px; color: #777;}
+    .profile { display: flex; align-items: center; }
+    .profile .notif { width: 22px; height: 22px; margin-right: 20px; cursor:pointer; }
+    .profile img#profileImageSettings { border-radius: 50%; width: 35px; height: 35px; margin-right: 10px; border:2px solid #ddd;}
+    .profile .username { font-size: 14px; font-weight: 600; color:#333;}
+
+    .settings-box { margin-top: 30px; width: 100%; max-width:700px; align-self: center;}
+    .settings-box h2 { margin-bottom: 30px; font-size: 24px; text-align: center; color:#333; }
+    .info-profil { display: flex; align-items: center; margin-bottom: 30px; gap: 20px; padding:20px; background-color:#fff; border-radius:10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);}
+    .profil-img { width: 70px; height: 70px; border-radius: 50%; }
+    .input-nama { flex: 1; padding: 10px 16px; font-size: 16px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9f9f9; }
+    .input-no-bg { background-color: transparent !important; border: 1px solid #ccc !important; } /* Forcing for .input-no-bg */
+    .btn-simpan { background-color: #857cc1; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; }
+    .btn-simpan:hover { background-color: #7065a8; }
+
+    .form-group { margin-bottom: 25px; background-color:#fff; padding:20px; border-radius:10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);}
+    .form-group label { display: block; margin-bottom: 8px; font-size: 16px; color:#555; }
+    .form-group input, .form-group select { width: calc(100% - 24px); padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9f9f9; }
+
+    .notifikasi { margin-top: 30px; margin-bottom: 30px; }
+    .notifikasi h3 { font-size: 18px; margin-bottom: 20px; padding-left:5px;}
+    .notif-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);}
+    .notif-item div { flex-grow: 1; padding-right: 15px; }
+    .notif-item strong { display:block; margin-bottom: 5px; }
+    .notif-item p { font-size: 14px; color: #333; line-height:1.4; margin:0;}
+
+    .switch { position: relative; display: inline-block; width: 45px; height: 24px; flex-shrink:0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; background-color: #ccc; border-radius: 24px; top: 0; left: 0; right: 0; bottom: 0; transition: .4s; }
+    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s; }
+    input:checked + .slider { background-color: #857cc1; }
+    input:checked + .slider:before { transform: translateX(21px); }
+  </style>
 </body>
 </html>

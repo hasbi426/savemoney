@@ -1,8 +1,9 @@
+// backend/migrations/xxxxxxxxxxxxxx-create-user.js
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users', { // Ensure table name matches your model
+    await queryInterface.createTable('users', { // Table name is 'users'
       id: {
         allowNull: false,
         primaryKey: true,
@@ -26,7 +27,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      created_at: { // Sequelize uses underscored by default for timestamps
+      // --- TIMESTAMPS ---
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
